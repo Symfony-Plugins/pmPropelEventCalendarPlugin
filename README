@@ -1,0 +1,56 @@
+pmPropelEventCalendarPlugin
+===========================
+
+The `pmPropelEventCalendarPlugin` is a symfony plugin that provides an event calendar
+based on a Propel class. You can use the provided module for searching events.
+
+Installation
+------------
+
+  * Install the plugin
+
+    * Subversion
+
+        [bash]
+        $ svn co http://svn.symfony-project.com/plugins/pmPropelEventCalendarPlugin/trunk pmPropelEventCalendarPlugin
+
+  * Download jquery and jqueryui javascripts. Use them in your view.yml file
+
+        [yml]
+        # in apps/<app>/config/view.yml
+        default:
+          stylesheets:    [smoothness/jquery-ui-1.8.custom.css]
+          javascripts:    [jquery-1.4.2.min.js, jquery-ui-1.8.custom.min.js]
+
+  * Enable the pm_propel_event_calendar module
+
+        [yml]
+        # in apps/<app>/config/settings.yml
+        all:
+          enabled_modules: [default, pm_propel_event_calendar]
+
+  * Configure the plugin
+
+        [yml]
+        # in apps/<app>/config/app.yml
+        all:
+          pm_propel_event_calendar:
+            class: Event              # default
+            column: DATE              # default
+            peer_method: doSelect     # default
+            title: Event calendar     # default
+            order: desc               # default, could be 'asc'
+            module: event             # propel admin module, used to present the results (not required)
+
+  * Clear your cache
+
+        $ symfony cc
+
+  * Filter by date in /<app>.php/pm_propel_event_calendar
+
+
+TODO
+----
+
+  * Improve documentation
+  * Create a widget and a form that use it (could be useful)

@@ -1,0 +1,7 @@
+pm_propel_event_calendar:
+  url: /pm_propel_event_calendar
+  param: { module: pm_propel_event_calendar, action: index }
+
+pm_propel_event_calendar_search:
+  url: /pm_propel_event_calendar_search
+  param: { module: pm_propel_event_calendar, action: search }
