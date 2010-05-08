@@ -26,32 +26,33 @@ class pm_propel_event_calendarActions extends sfActions
   */
   public function executeSearch(sfWebRequest $request)
   {
-    $selected_date = $request->getParameter('date');
+    $this->selected_date = $request->getParameter('date');
     $this->class = sfConfig::get('app_pm_propel_event_calendar_class', 'Event');
-    $peer_class = $this->class.'Peer';
-    $column = sfConfig::get('app_pm_propel_event_calendar_column', 'DATE');
-    $peer_method = sfConfig::get('app_pm_propel_event_calendar_peer_method', 'doSelect');
-    $order = sfConfig::get('app_pm_propel_event_calendar_order', 'desc');
-    $module = sfConfig::get('app_pm_propel_event_calendar_module');
+    $this->peer_class = $this->class.'Peer';
+    $this->column = sfConfig::get('app_pm_propel_event_calendar_column', 'DATE');
+    $this->peer_method = sfConfig::get('app_pm_propel_event_calendar_peer_method', 'doSelect');
+    $this->order_by_column = sfConfig::get('app_pm_propel_event_calendar_order_by_column', 'DATE');
+    $this->order = sfConfig::get('app_pm_propel_event_calendar_order', 'desc');
+    $this->module = sfConfig::get('app_pm_propel_event_calendar_module');
 
     $c = new Criteria();
-    $c->add(constant("$peer_class::$column"), $selected_date);
+    $c->add(constant($this->peer_class."::".$this->column), $this->selected_date);
 
-    if ($order == 'desc')
+    if ($this->order == 'desc')
     {
-      $c->addDescendingOrderByColumn(constant("$peer_class::$column"));
+      $c->addDescendingOrderByColumn(constant($this->peer_class."::".$this->order_by_column));
     }
     else
     {
-      $c->addAscendingOrderByColumn(constant("$peer_class::$column"));
+      $c->addAscendingOrderByColumn(constant($this->peer_class."::".$this->order_by_column));
     }
 
-    if (!is_null($module))
+    if (!is_null($this->module))
     {
       $filters = array(
-        sfInflector::underscore($column) => array(
-          "from" => $selected_date,
-          "to" => $selected_date
+        sfInflector::underscore($this->column) => array(
+          "from" => $this->selected_date,
+          "to" => $this->selected_date
         )
       );
 
@@ -60,7 +61,7 @@ class pm_propel_event_calendarActions extends sfActions
     }
     else
     {
-      $this->results = call_user_func(array($peer_class, $peer_method), $c);
+      $this->results = call_user_func(array($this->peer_class, $this->peer_method), $c);
     }
   }
 }

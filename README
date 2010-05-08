@@ -40,6 +40,7 @@ Installation
             peer_method: doSelect     # default
             title: Event calendar     # default
             order: desc               # default, could be 'asc'
+            order_by_column: DATE     # default
             module: event             # propel admin module, used to present the results (not required)
 
   * Clear your cache
